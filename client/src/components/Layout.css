@@ -1,0 +1,57 @@
+.app-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f5f5;
+}
+
+.game-layout {
+  overflow: hidden;
+}
+
+.mobile-orientation-warning {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.mobile.game-layout .mobile-orientation-warning {
+  display: flex;
+}
+
+@media (orientation: landscape) {
+  .mobile.game-layout .mobile-orientation-warning {
+    display: none;
+  }
+}
+
+.warning-content {
+  text-align: center;
+  padding: 20px;
+}
+
+.rotate-icon {
+  font-size: 40px;
+  display: block;
+  margin-bottom: 15px;
+  animation: rotate 2s infinite linear;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+  .app-layout {
+    padding: 0;
+  }
+} 

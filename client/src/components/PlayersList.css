@@ -1,0 +1,88 @@
+.players-list {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.players-list h3 {
+  background-color: #4285f4;
+  color: white;
+  margin: 0;
+  padding: 12px;
+  text-align: center;
+  font-size: 18px;
+}
+
+.players-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.player {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 15px;
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.2s;
+}
+
+.player:last-child {
+  border-bottom: none;
+}
+
+.player:hover {
+  background-color: #f9f9f9;
+}
+
+.player.drawing {
+  background-color: #e8f5e9;
+}
+
+.player.current-player {
+  font-weight: bold;
+}
+
+.player-name {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 150px;
+}
+
+.player-score {
+  font-weight: bold;
+  color: #4285f4;
+}
+
+.guessed-indicator {
+  color: #4caf50;
+  margin-left: 5px;
+}
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+  background-color: #f1f1f1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .players-list {
+    max-height: 200px;
+    overflow-y: auto;
+  }
+} 

@@ -1,0 +1,112 @@
+.round-word {
+  text-align: center;
+  font-size: 18px;
+  margin: 15px 0;
+}
+
+.round-word span {
+  font-weight: bold;
+  color: #4285f4;
+}
+
+.round-drawer {
+  text-align: center;
+  font-size: 16px;
+  margin-bottom: 20px;
+  color: #666;
+}
+
+.round-drawer span {
+  font-weight: bold;
+}
+
+.scores-table {
+  margin: 20px 0;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.scores-header {
+  display: grid;
+  grid-template-columns: 1fr 80px 80px;
+  padding: 10px 15px;
+  background-color: #f5f5f5;
+  font-weight: bold;
+  border-bottom: 2px solid #eee;
+}
+
+.score-row {
+  display: grid;
+  grid-template-columns: 1fr 80px 80px;
+  padding: 10px 15px;
+  border-bottom: 1px solid #eee;
+  align-items: center;
+}
+
+.score-row:last-child {
+  border-bottom: none;
+}
+
+.player-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.drawer-tag {
+  background-color: #4285f4;
+  color: white;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 10px;
+}
+
+.total-score {
+  font-weight: bold;
+}
+
+.score-change {
+  color: #999;
+}
+
+.score-change.positive {
+  color: #4caf50;
+  font-weight: bold;
+}
+
+.round-progress {
+  text-align: center;
+  margin: 15px 0;
+  color: #666;
+}
+
+.continue-btn {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background-color: #4285f4;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 20px;
+}
+
+.continue-btn:hover {
+  background-color: #3367d6;
+}
+
+@media (max-width: 480px) {
+  .round-summary-card {
+    padding: 15px;
+  }
+  
+  .scores-header, .score-row {
+    grid-template-columns: 1fr 60px 60px;
+    padding: 8px 10px;
+    font-size: 14px;
+  }
+} 
