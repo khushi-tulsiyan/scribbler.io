@@ -6,10 +6,17 @@ import Game from './components/Game';
 import GameRooms from './components/GameRooms';
 import './App.css';
 
+const socket = io(window.SOCKET_URL, {
+  transports: ['polling', 'websocket'],
+  reconnectionAttempts: 5,
+  reconnectionDelay: 1000,
+  timeout: 10000,
+  autoConnect: true
+});
+
 function App() {
   const [player, setPlayer] = useState(null);
   const [isConnecting, setIsConnecting] = useState(true);
-  const [socket, setSocket] = useState(null);
 
   useEffect(() => {
     // Check for stored player data
@@ -18,62 +25,44 @@ function App() {
       setPlayer(JSON.parse(storedPlayer));
     }
 
-    // Initialize socket connection with optimized settings
-    const newSocket = io('http://localhost:3001', {
-      transports: ['websocket', 'polling'],
-      reconnection: true,
-      reconnectionAttempts: 5,
-      reconnectionDelay: 1000,
-      timeout: 10000,
-      forceNew: true,
-      autoConnect: true,
-      withCredentials: true,
-      path: '/socket.io/',
-      query: {
-        timestamp: Date.now()
-      }
-    });
-
     // Connection event handlers
-    newSocket.on('connect', () => {
-      console.log('Connected to server with ID:', newSocket.id);
+    socket.on('connect', () => {
+      console.log('Connected to server with ID:', socket.id);
       setIsConnecting(false);
     });
 
-    newSocket.on('connect_error', (error) => {
+    socket.on('connect_error', (error) => {
       console.error('Socket connection error:', error);
       setIsConnecting(false);
     });
 
-    newSocket.on('disconnect', (reason) => {
+    socket.on('disconnect', (reason) => {
       console.log('Disconnected from server:', reason);
       setIsConnecting(true);
     });
 
-    newSocket.on('error', (error) => {
+    socket.on('error', (error) => {
       console.error('Socket error:', error);
       setIsConnecting(false);
     });
 
-    newSocket.on('reconnect', (attemptNumber) => {
+    socket.on('reconnect', (attemptNumber) => {
       console.log('Reconnected to server after', attemptNumber, 'attempts');
       setIsConnecting(false);
     });
 
-    newSocket.on('reconnect_error', (error) => {
+    socket.on('reconnect_error', (error) => {
       console.error('Reconnection error:', error);
     });
 
-    newSocket.on('reconnect_failed', () => {
+    socket.on('reconnect_failed', () => {
       console.error('Failed to reconnect to server');
       setIsConnecting(false);
     });
 
-    setSocket(newSocket);
-
     return () => {
-      if (newSocket) {
-        newSocket.disconnect();
+      if (socket) {
+        socket.disconnect();
       }
     };
   }, []);
