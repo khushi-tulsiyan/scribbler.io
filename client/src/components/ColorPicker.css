@@ -1,0 +1,99 @@
+.color-picker {
+  position: relative;
+  display: inline-block;
+}
+
+.selected-color {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.selected-color:hover {
+  transform: scale(1.05);
+  border-color: #667eea;
+}
+
+.color-indicator {
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+}
+
+.color-palette {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  background: white;
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 10px 15px rgba(0, 0, 0, 0.1);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.color-option {
+  width: 30px;
+  height: 30px;
+  border: 2px solid #e2e8f0;
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 0;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.color-option:hover {
+  transform: scale(1.1);
+  border-color: #667eea;
+}
+
+.color-option.selected {
+  border-color: #667eea;
+  transform: scale(1.1);
+}
+
+.check-mark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+  font-size: 16px;
+}
+
+/* Dark colors need a different colored checkmark */
+.color-option[style*="background-color: #FFFFFF"] .check-mark,
+.color-option[style*="background-color: #FFFF00"] .check-mark,
+.color-option[style*="background-color: #00FF00"] .check-mark {
+  color: #2d3748;
+  text-shadow: none;
+}
+
+@media (max-width: 600px) {
+  .color-palette {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 300px;
+    grid-template-columns: repeat(8, 1fr);
+  }
+} 

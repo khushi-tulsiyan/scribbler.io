@@ -1,0 +1,83 @@
+.players-list {
+  background-color: white;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.players-list h3 {
+  margin: 0 0 1rem;
+  color: #1f2937;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.players {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.player {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  background-color: #f9fafb;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.player.drawing {
+  background-color: #dbeafe;
+}
+
+.player.current {
+  border: 2px solid #3b82f6;
+}
+
+.player.correct {
+  background-color: #d1fae5;
+}
+
+.player-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-grow: 1;
+}
+
+.player-name {
+  font-weight: 500;
+  color: #4b5563;
+}
+
+.player-score {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.drawing-indicator {
+  font-size: 1.25rem;
+  margin-left: 0.5rem;
+}
+
+.correct-indicator {
+  color: #059669;
+  font-size: 1.25rem;
+  margin-left: 0.5rem;
+}
+
+@media (max-width: 640px) {
+  .players-list {
+    padding: 0.75rem;
+  }
+
+  .player {
+    padding: 0.5rem;
+  }
+
+  .player-info {
+    gap: 0.5rem;
+  }
+} 
