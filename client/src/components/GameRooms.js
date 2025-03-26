@@ -15,8 +15,15 @@ const GameRooms = ({ socket, player, onLogout }) => {
 
     // Initial rooms fetch
     const fetchRooms = () => {
+      if (!socket.connected) {
+        console.log('Socket not connected, attempting to reconnect...');
+        socket.connect();
+        return;
+      }
+
       socket.emit('getRooms', (response) => {
         if (response.error) {
+          console.error('Error fetching rooms:', response.error);
           setError(response.error);
         }
       });
@@ -80,9 +87,11 @@ const GameRooms = ({ socket, player, onLogout }) => {
       clearTimeout(timeoutId);
       
       if (response.error) {
+        console.error('Room creation error:', response.error);
         setError(response.error);
         setIsLoading(false);
       } else if (!response.success) {
+        console.error('Room creation failed');
         setError('Failed to create room. Please try again.');
         setIsLoading(false);
       }
@@ -112,9 +121,11 @@ const GameRooms = ({ socket, player, onLogout }) => {
       clearTimeout(timeoutId);
       
       if (response.error) {
+        console.error('Room join error:', response.error);
         setError(response.error);
         setIsLoading(false);
       } else if (!response.success) {
+        console.error('Room join failed');
         setError('Failed to join room. Please try again.');
         setIsLoading(false);
       }

@@ -26,11 +26,17 @@ function App() {
       reconnectionDelay: 1000,
       timeout: 10000,
       forceNew: true,
-      autoConnect: true
+      autoConnect: true,
+      withCredentials: true,
+      path: '/socket.io/',
+      query: {
+        timestamp: Date.now()
+      }
     });
 
+    // Connection event handlers
     newSocket.on('connect', () => {
-      console.log('Connected to server');
+      console.log('Connected to server with ID:', newSocket.id);
       setIsConnecting(false);
     });
 
@@ -46,6 +52,20 @@ function App() {
 
     newSocket.on('error', (error) => {
       console.error('Socket error:', error);
+      setIsConnecting(false);
+    });
+
+    newSocket.on('reconnect', (attemptNumber) => {
+      console.log('Reconnected to server after', attemptNumber, 'attempts');
+      setIsConnecting(false);
+    });
+
+    newSocket.on('reconnect_error', (error) => {
+      console.error('Reconnection error:', error);
+    });
+
+    newSocket.on('reconnect_failed', () => {
+      console.error('Failed to reconnect to server');
       setIsConnecting(false);
     });
 

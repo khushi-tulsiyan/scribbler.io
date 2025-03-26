@@ -4,7 +4,10 @@ const socketIO = require('socket.io');
 const cors = require('cors');
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:3000",
+  credentials: true
+}));
 
 const server = http.createServer(app);
 const io = socketIO(server, {
@@ -18,7 +21,9 @@ const io = socketIO(server, {
   pingInterval: 25000,
   connectTimeout: 10000,
   maxHttpBufferSize: 1e8,
-  allowEIO3: true
+  allowEIO3: true,
+  path: '/socket.io/',
+  cookie: false
 });
 
 // Add error handling for the server
@@ -35,6 +40,18 @@ const words = {
   countries: ['france', 'japan', 'brazil', 'australia', 'egypt', 'india', 'canada', 'italy'],
   professions: ['doctor', 'teacher', 'chef', 'artist', 'pilot', 'engineer', 'lawyer', 'firefighter']
 };
+
+// Room cleanup interval
+setInterval(() => {
+  const now = Date.now();
+  gameRooms.forEach((room, roomCode) => {
+    // Remove empty rooms or rooms that haven't been active for 1 hour
+    if (room.players.length === 0 || (room.lastActivity && now - room.lastActivity > 3600000)) {
+      console.log(`Cleaning up room: ${roomCode}`);
+      gameRooms.delete(roomCode);
+    }
+  });
+}, 300000); // Check every 5 minutes
 
 // Helper functions
 const generateRoomCode = () => {
@@ -53,12 +70,12 @@ const calculateScore = (timeLeft) => {
 
 // Socket connection handling
 io.on('connection', (socket) => {
-  console.log('New client connected');
+  console.log('New client connected:', socket.id);
 
   // Create room
   socket.on('createRoom', async ({ playerName }, callback) => {
     try {
-      console.log('Creating room for player:', playerName);
+      console.log(`Creating room for player: ${playerName} (${socket.id})`);
       const roomCode = generateRoomCode();
       
       // Check if room code already exists
@@ -82,7 +99,9 @@ io.on('connection', (socket) => {
         messages: [],
         drawingHistory: [],
         categories: Object.keys(words),
-        selectedCategory: null
+        selectedCategory: null,
+        lastActivity: Date.now(),
+        createdBy: socket.id
       };
 
       const player = {
@@ -98,7 +117,7 @@ io.on('connection', (socket) => {
       
       // Join the socket room
       await socket.join(roomCode);
-      console.log('Room created:', roomCode);
+      console.log(`Room created: ${roomCode} by ${playerName}`);
 
       // Emit success events
       socket.emit('roomJoined', { roomCode });
